@@ -2,7 +2,7 @@
 // Project: https://github.com/apache/cordova-plugin-media
 // Definitions by: Microsoft Open Technologies Inc <http://msopentech.com>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// 
+//
 // Copyright (c) Microsoft Open Technologies Inc
 // Licensed under the MIT license
 
@@ -36,6 +36,14 @@ interface Media {
         mediaSuccess: (amplitude: number) => void,
         mediaError?: (error: MediaError) => void): void;
     /**
+     * Returns the current amplitude within an audio file.
+     * @param mediaSuccess The callback that is passed the current amplitude (0.0 - 1.0).
+     * @param mediaError   The callback to execute if an error occurs.
+     */
+    getCurrentDB(
+        mediaSuccess: (decibels: number) => void,
+        mediaError?: (error: MediaError) => void): void;
+    /**
      * Returns the current position within an audio file. Also updates the Media object's position parameter.
      * @param mediaSuccess The callback that is passed the current position in seconds.
      * @param mediaError   The callback to execute if an error occurs.
@@ -45,7 +53,7 @@ interface Media {
         mediaError?: (error: MediaError) => void): void;
     /** Returns the duration of an audio file in seconds. If the duration is unknown, it returns a value of -1. */
     getDuration(): number;
-    /** 
+    /**
      * Starts or resumes playing an audio file.
      * @param iosPlayOptions: iOS options quirks
      */

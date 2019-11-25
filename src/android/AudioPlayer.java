@@ -757,4 +757,23 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         }
         return 0;
     }
+
+    /**
+     * Get current DB of recording.
+     *
+     * @return DB or 0 if not recording
+     */
+    public float getCurrentDB() {
+        if (this.recorder != null) {
+            try{
+                if (this.state == STATE.MEDIA_RUNNING) {
+                    return (float) this.recorder.getMaxAmplitude() / 32762;
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
 }

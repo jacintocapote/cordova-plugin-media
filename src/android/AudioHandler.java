@@ -565,4 +565,17 @@ public class AudioHandler extends CordovaPlugin {
         }
         return 0;
     }
+
+    /**
+     * Get current db of recording.
+     * @param id                The id of the audio player
+     * @return                  decibels
+     */
+    public float getCurrentDBAudio(String id) {
+        AudioPlayer audio = this.players.get(id);
+        if (audio != null) {
+            return (audio.getCurrentAmplitude());
+        }
+        return 0;
+    }
 }

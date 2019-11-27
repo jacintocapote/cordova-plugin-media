@@ -921,13 +921,26 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
 
 #pragma unused(mediaId)
     CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
-    float decibels = 0; // The linear 0.0 .. 1.0 value
+    float amplitude = 0; // The linear 0.0 .. 1.0 value
 
     if ((audioFile != nil) && (audioFile.recorder != nil) && [audioFile.recorder isRecording]) {
         [audioFile.recorder updateMeters];
-        decibels    = [audioFile.recorder averagePowerForChannel:0];
+        float minDecibels = -60.0f; // Or use -60dB, which I measured in a silent room.
+        float decibels    = [audioFile.recorder averagePowerForChannel:0];
+        if (decibels < minDecibels) {
+            amplitude = 0.0f;
+        } else if (decibels >= 0.0f) {
+            amplitude = 1.0f;
+        } else {
+            float root            = 2.0f;
+            float minAmp          = powf(10.0f, 0.05f * minDecibels);
+            float inverseAmpRange = 1.0f / (1.0f - minAmp);
+            float amp             = powf(10.0f, 0.05f * decibels);
+            float adjAmp          = (amp - minAmp) * inverseAmpRange;
+            amplitude = powf(adjAmp, 1.0f / root);
+        }
     }
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:decibels];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:amplitude];
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
  }
 

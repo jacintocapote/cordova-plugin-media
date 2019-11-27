@@ -59,7 +59,7 @@ var Media = function(src, successCallback, errorCallback, statusCallback) {
 /**
  * Creates new Audio node and with necessary event listeners attached
  * @param  {Media} media Media object
- * @return {Audio}       Audio element 
+ * @return {Audio}       Audio element
  */
 function createNode (media) {
     var node = new Audio();
@@ -210,6 +210,13 @@ Media.prototype.pauseRecord = function() {
  * Returns the current amplitude of the current recording.
  */
 Media.prototype.getCurrentAmplitude = function() {
+    Media.onStatus(this.id, Media.MEDIA_ERROR, "Not supported");
+};
+
+/**
+ * Returns the current DB of the current recording.
+ */
+Media.prototype.getCurrentDB = function() {
     Media.onStatus(this.id, Media.MEDIA_ERROR, "Not supported");
 };
 

@@ -187,6 +187,15 @@ Media.prototype.getCurrentAmplitude = function(success, fail) {
 };
 
 /**
+ * Get DB of audio.
+ */
+Media.prototype.getCurrentDB = function(success, fail) {
+    exec(function(p) {
+        success(p);
+    }, fail, "Media", "getCurrentDBAudio", [this.id]);
+};
+
+/**
  * Audio has status update.
  * PRIVATE
  *

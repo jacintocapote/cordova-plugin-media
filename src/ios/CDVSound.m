@@ -939,6 +939,7 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
             float adjAmp          = (amp - minAmp) * inverseAmpRange;
             amplitude = powf(adjAmp, 1.0f / root);
         }
+        amplitude = decibels;
     }
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:amplitude];
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
